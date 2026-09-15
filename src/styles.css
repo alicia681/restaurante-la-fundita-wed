@@ -1,0 +1,267 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * LA FONDITA — design system
+ * Paleta: rojo chile, terracota, crema maíz, amarillo maíz, verde aguacate,
+ * marrón cacao, negro cálido, blanco cálido. Todos los colores en oklch.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chile: var(--chile);
+  --color-chile-dark: var(--chile-dark);
+  --color-terracotta: var(--terracotta);
+  --color-cream: var(--cream);
+  --color-corn: var(--corn);
+  --color-avocado: var(--avocado);
+  --color-cacao: var(--cacao);
+  --color-ink: var(--ink);
+  --color-warm-white: var(--warm-white);
+}
+
+:root {
+  --radius: 0.25rem;
+
+  --chile: oklch(0.446 0.152 27.5);
+  --chile-dark: oklch(0.372 0.132 27.5);
+  --terracotta: oklch(0.556 0.126 39.5);
+  --cream: oklch(0.941 0.026 82.5);
+  --corn: oklch(0.75 0.111 84);
+  --avocado: oklch(0.45 0.062 128);
+  --cacao: oklch(0.279 0.041 48);
+  --ink: oklch(0.19 0.014 55);
+  --warm-white: oklch(0.985 0.014 88);
+
+  --background: var(--warm-white);
+  --foreground: var(--ink);
+  --card: oklch(0.968 0.018 85);
+  --card-foreground: var(--ink);
+  --popover: var(--warm-white);
+  --popover-foreground: var(--ink);
+  --primary: var(--chile);
+  --primary-foreground: var(--cream);
+  --secondary: var(--cream);
+  --secondary-foreground: var(--cacao);
+  --muted: oklch(0.955 0.02 84);
+  --muted-foreground: oklch(0.46 0.026 55);
+  --accent: var(--corn);
+  --accent-foreground: var(--cacao);
+  --destructive: oklch(0.55 0.2 27);
+  --destructive-foreground: var(--cream);
+  --border: oklch(0.87 0.024 78);
+  --input: oklch(0.87 0.024 78);
+  --ring: var(--terracotta);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  blockquote {
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-chile);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-chile);
+    color: var(--color-cream);
+  }
+}
+
+/* --- utilidades de marca --- */
+
+@utility eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-terracotta);
+}
+
+@utility paper {
+  background-color: var(--color-cream);
+  background-image: radial-gradient(
+      oklch(0.279 0.041 48 / 0.045) 0.5px,
+      transparent 0.5px
+    ),
+    radial-gradient(oklch(0.279 0.041 48 / 0.035) 0.5px, transparent 0.5px);
+  background-size: 14px 14px, 22px 22px;
+  background-position: 0 0, 7px 11px;
+}
+
+@utility hairline {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-border) 12%,
+    var(--color-border) 88%,
+    transparent
+  );
+}
+
+@utility section-number {
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  letter-spacing: 0.28em;
+  color: var(--color-muted-foreground);
+}
+
+@utility link-underline {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  &:hover::after,
+  &[data-status="active"]::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  &[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility image-reveal {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  &[data-visible="true"] {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes fondita-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fondita-soft-in {
+  from {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fondita-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.72);
+  }
+}
+
+@utility rise {
+  animation: fondita-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility soft-in {
+  animation: fondita-soft-in 1200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility dot-pulse {
+  animation: fondita-pulse 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal,
+  .image-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
